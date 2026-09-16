@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hospital Management System</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div>
+                <h1>Hospital Management System</h1>
+                <p>Simple Patient Management Dashboard</p>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- Statistics -->
+        <section class="stats">
+
+            <div class="stat-card">
+                <span>Total Patients</span>
+                <strong id="totalPatients">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <span>Male Patients</span>
+                <strong id="malePatients">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <span>Female Patients</span>
+                <strong id="femalePatients">0</strong>
+            </div>
+
+        </section>
+
+
+        <!-- Add / Update Patient Form -->
+        <section class="form-section">
+
+            <h2 id="formTitle">Add Patient</h2>
+
+            <form id="patientForm">
+
+                <!-- Hidden ID used while editing -->
+                <input type="hidden" id="patientId">
+
+
+                <div class="form-grid">
+
+                    <!-- Patient Name -->
+                    <div class="form-group">
+                        <label for="name">Patient Name</label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Enter patient name"
+                            required
+                        >
+                    </div>
+
+
+                    <!-- Age -->
+                    <div class="form-group">
+                        <label for="age">Age</label>
+
+                        <input
+                            type="number"
+                            id="age"
+                            min="0"
+                            max="120"
+                            placeholder="Enter age"
+                            required
+                        >
+                    </div>
+
+
+                    <!-- Gender -->
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+
+                        <select id="gender" required>
+
+                            <option value="">
+                                Select gender
+                            </option>
+
+                            <option value="Male">
+                                Male
+                            </option>
+
+                            <option value="Female">
+                                Female
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+                    </div>
+
+
+                    <!-- Phone -->
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            placeholder="10-digit phone number"
+                            pattern="[0-9]{10}"
+                            maxlength="10"
+                            required
+                        >
+                    </div>
+
+
+                    <!-- Doctor -->
+                    <div class="form-group">
+                        <label for="doctor">Doctor</label>
+
+                        <input
+                            type="text"
+                            id="doctor"
+                            placeholder="Doctor name"
+                            required
+                        >
+                    </div>
+
+
+                    <!-- Department -->
+                    <div class="form-group">
+                        <label for="department">Department</label>
+
+                        <select id="department" required>
+
+                            <option value="">
+                                Select department
+                            </option>
+
+                            <option>
+                                General Medicine
+                            </option>
+
+                            <option>
+                                Cardiology
+                            </option>
+
+                            <option>
+                                Neurology
+                            </option>
+
+                            <option>
+                                Orthopedics
+                            </option>
+
+                            <option>
+                                Pediatrics
+                            </option>
+
+                            <option>
+                                Dermatology
+                            </option>
+
+                            <option>
+                                ENT
+                            </option>
+
+                        </select>
+                    </div>
+
+
+                    <!-- Admission Date -->
+                    <div class="form-group">
+                        <label for="date">
+                            Admission Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="date"
+                            required
+                        >
+                    </div>
+
+
+                    <!-- Address -->
+                    <div class="form-group full-width">
+
+                        <label for="address">
+                            Address
+                        </label>
+
+                        <textarea
+                            id="address"
+                            rows="3"
+                            placeholder="Enter patient address"
+                            required
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Buttons -->
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="btn primary"
+                        id="submitBtn"
+                    >
+                        Add Patient
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn secondary"
+                        id="cancelBtn"
+                        onclick="resetForm()"
+                    >
+                        Clear
+                    </button>
+
+                </div>
+
+
+                <!-- Success / Error Message -->
+                <p
+                    id="message"
+                    class="message"
+                ></p>
+
+            </form>
+
+        </section>
+
+
+        <!-- Patient Records -->
+        <section class="table-section">
+
+            <div class="table-header">
+
+                <div>
+
+                    <h2>Patient Records</h2>
+
+                    <p>
+                        View, update, or delete patient details.
+                    </p>
+
+                </div>
+
+
+                <!-- Search -->
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search by name, phone, doctor..."
+                >
+
+            </div>
+
+
+            <!-- Patient Table -->
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Patient</th>
+
+                            <th>Age</th>
+
+                            <th>Gender</th>
+
+                            <th>Phone</th>
+
+                            <th>Doctor</th>
+
+                            <th>Department</th>
+
+                            <th>Admission</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="patientTableBody">
+
+                    </tbody>
+
+                </table>
+
+
+                <!-- Displayed when there are no records -->
+                <div
+                    id="emptyState"
+                    class="empty-state"
+                >
+                    No patient records found.
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            Hospital Management System &copy; 2026
+        </p>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
